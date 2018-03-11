@@ -1,0 +1,56 @@
+body{
+  width:100%;
+}
+
+.game-wrapper{
+  width:90%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.title-wrapper{
+  width:50%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.chars-wrapper{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content: space-between;
+}
+
+.section-header{
+  width:100%;
+}
+
+.char{
+  display:flex;
+  flex-direction: column;
+  margin:5px;
+}
+.char:hover{
+  opacity:.8;
+  border:3px solid red;
+  margin:2px;
+}
+
+.char-pic{
+  margin:5px;
+  width:100px;
+
+}
+
+.char-name{
+  display:inline-block;
+  width:100px;
+  bottom:0;
+}
+
+h1,h2,h3{
+  font-family: 'VT323', cursive;
+}
+
+.story{
+  font-family: 'Hanalei Fill', cursive;
+}
