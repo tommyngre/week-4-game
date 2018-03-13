@@ -6,60 +6,95 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Page Title</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://fonts.googleapis.com/css?family=Hanalei+Fill|VT323" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
   <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/reset.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
   <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/style.css" />
 </head>
 
 <body>
 
-  <div class="game-wrapper">
+  <div class="game-wrapper mx-auto text-center">
 
     <div class="title-wrapper">
 
-      <h1>Legendary One-up</h1>
-      <h2>Elite one-upsmanship in the Mandian realm</h2>
+      <h1 class="pixel-font">Legendary One-up</h1>
+      <h2 class="pixel-font">Elite one-upsmanship in the Mandian realm</h2>
 
     </div>
     <!-- title-wrapper -->
 
-    <section class="chars-wrapper">
+    <section id="chars-selection-wrapper" class="animated bounceInDown">
 
-        <div class="section-header">
-          <h2>Choose your hero!</h2>
-        </div>
+      <div class="section-header row">
+        <h2 class="">Choose your hero!</h2>
+      </div>
 
-        <div id="char1" class="char">
-          <h3 class="char-name">Mandy</h3>
-          <img class="char-pic" src="./assets/images/mandy-defensive-erode.png">
-        </div>
+      <div class="container">
 
-        <div id="char2" class="char">
-          <h3 class="char-name">Tuan</h3>
-          <img class="char-pic" src="./assets/images/tuan-defensive-erode.png">
-        </div>
+        <div class="row chars-wrapper">
 
-        <div id="char3" class="char">
-          <h3 class="char-name">Sonic</h3>
-          <img class="char-pic" src="./assets/images/dahlke-defensive-erode.png">
-        </div>
+          <div class="char-button-wrapper col-md-3 col-sm-6">
+          <div id="p1" class="char-button">
+            <div class="char">
+              <h3 class="char-name mx-auto">Mandy</h3>
+              <img class="char-pic mx-auto" src="./assets/images/mandy.png">
+            </div>
+          </div>
+          </div>
 
-        <div id="char4" class="char">
-          <h3 class="char-name">Mr. Sun</h3>
-          <img class="char-pic" src="./assets/images/mrsun-defensive-erode.png">
+          <div class="char-button-wrapper col-md-3 col-sm-6">
+          <div id="p2" class="char-button">
+            <div class="char">
+              <h3 class="char-name mx-auto">Tuan</h3>
+              <img class="char-pic mx-auto" src="./assets/images/tuan.png">
+            </div>
+          </div>
+          </div>
+
+          <div class="char-button-wrapper col-md-3 col-sm-6">
+          <div id="p3" class="char-button">
+            <div class="char">
+              <h3 class="char-name mx-auto">Sonic</h3>
+              <img class="char-pic mx-auto" src="./assets/images/dahlke.png">
+            </div>
+          </div>
+          </div>
+
+          <div class="char-button-wrapper col-md-3 col-sm-6">
+          <div id="p4" class="char-button">
+            <div class="char">
+              <h3 class="char-name mx-auto">Mr. Sun</h3>
+              <img class="char-pic mx-auto" src="./assets/images/mrsun.png">
+            </div>
+          </div>
+          </div>
+
         </div>
+      </div>
 
     </section>
     <!-- chars-wrapper -->
 
-    <section>
-      <p class="story">She had never not succeeded subsequenly one-upping someone who one-upped her.</p>
+    <section id="foe-selection-wrapper" class="animated bounceInDown">
+
+      <div class="section-header row">
+        <h2 class="">Choose your foe!</h2>
+      </div>
+
+      <div class="container">
+        <div class="row">
+        </div>
+      </div>
     </section>
 
   </div>
   <!-- game-wrapper -->
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
   <script src="./assets/javascript/game.js"></script>
 </body>
 

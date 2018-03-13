@@ -2,53 +2,73 @@ body{
   width:100%;
 }
 
+.pixel-font{
+  font-family: 'Press Start 2P', cursive;
+}
+
 .game-wrapper{
   width:90%;
-  margin: 0 auto;
-  text-align: center;
+}
+
+section{
+  margin:20px auto;
 }
 
 .title-wrapper{
-  width:50%;
-  margin: 0 auto;
-  text-align: center;
 }
 
-.chars-wrapper{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content: space-between;
+#char-selection-wrapper{
+}
+
+#foe-selection-wrapper{
+  display:none;
 }
 
 .section-header{
   width:100%;
 }
 
+.chars-wrapper{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.char-button-wrapper{
+
+}
+
+.char-button{
+  cursor:pointer;
+  background-color: rosybrown;
+  box-shadow:0px 5px black;
+  margin: 10px;
+  border-radius: 5px;
+}
+.char-button:active {
+  box-shadow: 0 3px black;
+  transform: translateY(4px);
+}
+
 .char{
+  box-sizing: border-box;
   display:flex;
   flex-direction: column;
-  margin:5px;
 }
 .char:hover{
-  opacity:.8;
-  border:3px solid red;
-  margin:2px;
+  opacity:.9;
 }
 
-.char-pic{
-  margin:5px;
-  width:100px;
 
+.char-pic{
+  width:150px;
 }
 
 .char-name{
   display:inline-block;
   width:100px;
+  margin:3px;
   bottom:0;
-}
-
-h1,h2,h3{
-  font-family: 'VT323', cursive;
 }
 
 .story{
