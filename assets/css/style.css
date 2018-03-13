@@ -2,42 +2,32 @@ body{
   width:100%;
 }
 
-.pixel-font{
-  font-family: 'Press Start 2P', cursive;
-}
-
 .game-wrapper{
   width:90%;
+}
+
+.pixel-font{
+  font-family: 'Press Start 2P', cursive;
 }
 
 section{
   margin:20px auto;
 }
-
-.title-wrapper{
-}
-
-#char-selection-wrapper{
-}
-
-#foe-selection-wrapper{
-  display:none;
-}
-
 .section-header{
   width:100%;
 }
 
+/* hide all of these sections by default */
+#foe-selection-wrapper{
+  display:none;
+}
+
+/* character selection buttons */
 .chars-wrapper{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
-
-.char-button-wrapper{
-
-}
-
 .char-button{
   cursor:pointer;
   background-color: rosybrown;
@@ -49,7 +39,6 @@ section{
   box-shadow: 0 3px black;
   transform: translateY(4px);
 }
-
 .char{
   box-sizing: border-box;
   display:flex;
@@ -58,12 +47,9 @@ section{
 .char:hover{
   opacity:.9;
 }
-
-
 .char-pic{
   width:150px;
 }
-
 .char-name{
   display:inline-block;
   width:100px;

@@ -72,16 +72,14 @@ var game = {
     setTimeout(function () {
       $("#chars-selection-wrapper").css("display", "none");
     }, 1000);
-    this.intro();
+    this.chooseFoe();
   },
-  intro: function () {
+  chooseFoe: function () {
     console.log("intro()");
     setTimeout(function(){
     $("#foe-selection-wrapper").addClass("animated bounceInDown")
     .css("display","block")
-  }, 1000);
-    
-      
+  }, 1000);  
   }
 }
 
