@@ -117,8 +117,8 @@ var game = {
         .css("display", "block")
     }, 1000);
 
-    //not workin... hm...
-    $(".continue-btn").on("click", function () {
+    //had to bind to body for some reason... hm...
+    $("body").on("click", ".continue-btn", function () {
       console.log("clicked continue");
       game.clearBios();
     })
