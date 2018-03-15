@@ -12,7 +12,8 @@ var p2 = {
   name: "Tuan",
   pic: "./assets/images/tuan.png",
   bio: "Outwardly, Tuan seemed humble and content enough: an earnest worker; an honest man. \
-  But his humility was a facade, and he intended make those pay who took it for granted.",
+  But his humility was a facade, and he intended make those pay who took it for granted. \
+  Possibly even his closet allies.",
 
 }
 
@@ -21,7 +22,7 @@ var p3 = {
   pic: "./assets/images/dahlke.png",
   bio: "Sonic was the more outspoken of the duo he comprised with Tuan, and for that reason \
   his ostensible \"sidekick,\" Tuan, escaped notice more often than not. Thus, while Sonic did not run \
-  the Dang Gang, enabled Tuan's running of it.",
+  the Dang Gang, he enabled Tuan's running of it. And he knew it.",
 
 }
 
@@ -30,7 +31,7 @@ var p4 = {
   pic: "./assets/images/mrsun.png",
   bio: "Ham & Cheese, as Tuan and Sonic were once known, quickly recognized Mr. Sun's value as an asset \
   and took him under their wings. Thusly, the duo became a trio and the Dang Gang became a powerful organization,\
-  and perhaps the only viable threat to Mandy's supremacy.",
+  and perhaps the only viable threat to Mandy's supremacy. Mr. Sun knew his value too.",
 
 }
 
@@ -77,6 +78,14 @@ var game = {
       $("#foe-selection-wrapper").css("display", "none");
     }, 1000);
   },
+  clearBios: function () {
+    console.log("clearChooseFoe()");
+    $("#bios-wrapper").removeClass("animated bounceInDown")
+      .addClass("animated bounceOutUp");
+    setTimeout(function () {
+      $("#bios-wrapper").css("display", "none");
+    }, 1000);
+  },
   story: function () {
     setTimeout(function () {
 
@@ -107,6 +116,12 @@ var game = {
         .addClass("animated bounceInDown")
         .css("display", "block")
     }, 1000);
+
+    //not workin... hm...
+    $(".continue-btn").on("click", function () {
+      console.log("clicked continue");
+      game.clearBios();
+    })
   },
   chooseFoe: function () {
     console.log("chooseFoe()");
