@@ -42,6 +42,11 @@ var game = {
   foe2: '',
   foe3: '',
   start: function () {
+    this.player = '';
+    this.foes = [];
+    this.foe1 = '';
+    this.foe2 = '';
+    this.foe3 = '';
     this.choosePlayer();
   },
   choosePlayer: function () {
@@ -68,7 +73,6 @@ var game = {
     this.chooseFoe();
   },
   clearChooseFoe: function () {
-    console.log("clearChooseFoe()");
     $("#foes-wrapper").removeClass("animated bounceInDown")
       .addClass("animated bounceOutUp");
     setTimeout(function () {
@@ -97,7 +101,6 @@ var game = {
 
     //had to bind to body for some reason... hm...
     $("body").on("click", ".continue-btn", function () {
-      console.log("clicked continue");
       game.clearBios();
     })
   },
@@ -106,14 +109,15 @@ var game = {
       $("#foe-selection-wrapper").addClass("animated bounceInDown")
         .css("display", "block")
     }, 1000);
-    for (i = 0; i < game.foes.length; i++) {
+
+    game.foes.forEach(function (foe) {
 
       var html = `
         <div class="char-button-wrapper col-md-3 col-sm-6">
-          <div id=" ${game.foes[i].key} " class="char-button">
+          <div id=" ${foe.key} " class="char-button">
             <div class="char">
-              <h3 class="char-name mx-auto"> ${game.foes[i].name} </h3>
-              <img class="char-pic mx-auto" src=" ${game.foes[i].pic} ">
+              <h3 class="char-name mx-auto"> ${foe.name} </h3>
+              <img class="char-pic mx-auto" src=" ${foe.pic} ">
             </div>
           </div>
         </div>
@@ -121,21 +125,21 @@ var game = {
 
       $("#foes-wrapper").append(html);
 
-    }
+    })
 
     if (game.foe1 == "") {
 
       $(".char-button").on("click", function () {
         var foeId = $.trim(this.id);
-            
+
         game.foes.forEach(function (foe) {
-          console.log(foe.key);
+          //console.log(foe.key);
           if (foe.key == foeId) {
-            console.log("here");
+            //console.log("here");
             game.foe1 = foe;
           }
         })
-        
+
         game.clearChooseFoe();
         game.story();
         game.fight(game.foe1);
@@ -160,7 +164,7 @@ var game = {
     }
 
   },
-  fight: function(foe){
+  fight: function (foe) {
     //to be continued
   }
 }
