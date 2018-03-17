@@ -9,6 +9,15 @@ body{
 .pixel-font{
   font-family: 'Press Start 2P', cursive;
 }
+.asd{
+  display:block;
+  min-width:1px;
+  height:120px;
+}
+.sayings{
+  padding:20px;
+  font-size:1em;
+}
 
 section{
   margin:20px auto;
@@ -18,7 +27,7 @@ section{
 }
 
 /* hide all of these sections by default */
-#bios-wrapper, #foe-selection-wrapper{
+#battle-wrapper, #bios-wrapper, #foe-selection-wrapper{
   display:none;
 }
 
@@ -28,7 +37,7 @@ section{
   flex-direction: row;
   justify-content: space-between;
 }
-.continue-btn, .char-button{
+.attack-btn, .continue-btn, .char-button{
   cursor:pointer;
   background-color: rosybrown;
   box-shadow:0px 5px black;
@@ -38,7 +47,7 @@ section{
   font-size: 1.75rem;
   font-weight:500;
 }
-.continue-btn:active, .char-button:active {
+.attack-btn:active, .continue-btn:active, .char-button:active {
   box-shadow: 0 3px black;
   transform: translateY(4px);
 }
@@ -60,6 +69,46 @@ section{
   bottom:0;
 }
 
-.story{
-  font-family: 'Hanalei Fill', cursive;
+.battle-pic{
+  margin: 20px auto;
+}
+
+.hp{
+  margin-bottom:20px;
+  padding: 10px;
+}
+
+@keyframes hp-flash {
+  0% {
+      color: Black;
+  }
+  50% {
+      background-color: Red;
+  }
+  100% {
+      background-color: Black;
+  }
+}
+
+@-webkit-keyframes hp-flash {
+  0% {
+      color: Black;
+  }
+  50% {
+      color: Red;
+  }
+  100% {
+      color: Black;
+  }
+}
+
+.hp-flash {
+  animation-name: hp-flash;
+  animation-duration: 500ms;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
+  -webkit-animation-name: hp-flash;
+  -webkit-animation-duration: 500ms;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-timing-function: ease-in-out;
 }
