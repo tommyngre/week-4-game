@@ -92,34 +92,20 @@ var game = {
         }
       })
 
-      game.clearChoosePlayer();
+      game.clear("#chars-selection-wrapper");
     })
   },
-  clearChoosePlayer: function () {
+  clear: function (div) {
+    $(div).removeClass("animated bounceInDown")
+      .addClass("animated bounceOutUp");
+    setTimeout(function () {
+      $(div).css("display", "none");
+    }, 1000);
+    $("#subtitle").css("display", "none");
+    if (div == "#chars-selection-wrapper" ){
+      this.chooseFoe();
 
-    $("#chars-selection-wrapper").removeClass("animated bounceInDown")
-      .addClass("animated bounceOutUp");
-    $("#subtitle").addClass("animated bounceOutUp");
-    setTimeout(function () {
-      $("#chars-selection-wrapper").css("display", "none");
-      $("#subtitle").css("display", "none");
-    }, 1000);
-    this.chooseFoe();
-  },
-  clearChooseFoe: function () {
-    $("#foes-wrapper").removeClass("animated bounceInDown")
-      .addClass("animated bounceOutUp");
-    setTimeout(function () {
-      $("#foe-selection-wrapper").css("display", "none");
-    }, 1000);
-  },
-  clearBios: function () {
-    console.log("clearChooseFoe()");
-    $("#bios-wrapper").removeClass("animated bounceInDown")
-      .addClass("animated bounceOutUp");
-    setTimeout(function () {
-      $("#bios-wrapper").css("display", "none");
-    }, 1000);
+    }
   },
   story: function (f) {
     setTimeout(function () {
@@ -135,7 +121,7 @@ var game = {
 
     //had to bind to body for some reason... hm...
     $("body").on("click", ".continue-btn", function () {
-      game.clearBios();
+      game.clear("#bios-wrapper");
       game.fight(f);
 
     })
@@ -173,17 +159,17 @@ var game = {
 
           if (game.foe1 == "") {
             game.foe1 = f;
-            game.clearChooseFoe();
+            game.clear("#foe-selection-wrapper");
             game.story(game.foe1);
           }
           else if (game.foe2 == "") {
             game.foe2 = f;
-            game.clearChooseFoe();
+            game.clear("#foe-selection-wrapper");
             game.fight(game.foe2);
           }
           else if (game.foe3 == "") {
             game.foe3 = f;
-            game.clearChooseFoe();
+            game.clear("#foe-selection-wrapper");
             game.fight(game.foe3);
           }
           else {
