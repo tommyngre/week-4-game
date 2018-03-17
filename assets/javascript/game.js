@@ -14,7 +14,7 @@ var players = [
       "I made drawing questions!"
     ],
     hp: 250,
-    attack: 42,
+    attack: 250,
   },
   p2 = {
     key: "p2",
@@ -91,14 +91,15 @@ var game = {
           game.foes.push(player);
         }
       })
-
       game.clear("#chars-selection-wrapper");
+      console.log("CLEAR OUT!!! CHAR SELECTION!");
     })
   },
   clear: function (div) {
     $(div).removeClass("animated bounceInDown")
       .addClass("animated bounceOutUp");
     setTimeout(function () {
+      $(div).removeClass("bounceOutUp") //fixed?
       $(div).css("display", "none");
     }, 1000);
     $("#subtitle").css("display", "none");
@@ -122,6 +123,7 @@ var game = {
     //had to bind to body for some reason... hm...
     $("body").on("click", ".continue-btn", function () {
       game.clear("#bios-wrapper");
+      console.log("CLEAR OUT!!! BIOS WRAPPER!");
       game.fight(f);
 
     })
@@ -160,16 +162,20 @@ var game = {
           if (game.foe1 == "") {
             game.foe1 = f;
             game.clear("#foe-selection-wrapper");
+            console.log("CLEAR OUT!!! FOE 1!");
             game.story(game.foe1);
           }
           else if (game.foe2 == "") {
+            console.log("here");
             game.foe2 = f;
             game.clear("#foe-selection-wrapper");
+            console.log("CLEAR OUT!!! FOE 2!");
             game.fight(game.foe2);
           }
           else if (game.foe3 == "") {
             game.foe3 = f;
             game.clear("#foe-selection-wrapper");
+            console.log("CLEAR OUT!!! FOE 3!");
             game.fight(game.foe3);
           }
           else {
@@ -242,8 +248,14 @@ var game = {
             }, 500)
           }, 500)
         }
+        else{
+          console.log("YOU LOSE!")
+        }
       }
       else {
+        console.log("YOU WIN!");
+        game.clear("#battle-wrapper");
+        console.log("CLEAR OUT!!! BATTLE WRAPPER!");
         game.chooseFoe();
       }
 
