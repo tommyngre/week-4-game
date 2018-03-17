@@ -1,5 +1,3 @@
-//var players = ["p1", "p2", "p3", "p4"]
-
 var players = [
   p1 = {
     key: "p1",
@@ -15,6 +13,8 @@ var players = [
     ],
     hp: 250,
     attack: 45,
+    yay: "But that's no surprise. You're the best.\
+    You conquered conquered the realm and kept the Dang Gang at bay.",
   },
   p2 = {
     key: "p2",
@@ -32,6 +32,9 @@ var players = [
     ],
     hp: 245,
     attack: 43,
+    yay: "You did the impossible. You one-upped Mandy! And on the way, \
+    you held the ang Gang together despite a spirited insurrection. \
+    Tuandangit you're good, but don't get cocky; gambling me say that's when Mandy'll getcha."
   },
   p3 = {
     key: "p3",
@@ -48,6 +51,9 @@ var players = [
     ],
     hp: 230,
     attack: 45,
+    yay: "Incredible! You showed Tuan who's boss. Now you run the Dang Gang! \
+    Not only that, you managed to one-up Mandy on the way. \
+    But keep an eye out; Mandy's not the type to go gently into that good night. "
   },
   p4 = {
     key: "p4",
@@ -64,6 +70,9 @@ var players = [
     ],
     hp: 210,
     attack: 44,
+    yay: "Very impressive, Mr. Sun! You bested your mentor, Mandy \
+    and have placed in a formidable headlock those who took you under their wings. \
+    You command the Dang Dang. Tuan and Sonic answer to you now... for now."
   }
 ]
 
@@ -103,7 +112,7 @@ var game = {
       $(div).css("display", "none");
     }, 1000);
     $("#subtitle").css("display", "none");
-    if (div == "#chars-selection-wrapper" ){
+    if (div == "#chars-selection-wrapper") {
       this.chooseFoe();
 
     }
@@ -127,7 +136,7 @@ var game = {
     })
   },
   chooseFoe: function () {
-    setTimeout(function () {      
+    setTimeout(function () {
       $("#foe-selection-wrapper").addClass("animated bounceInDown")
         .css("display", "block")
     }, 1000);
@@ -181,7 +190,7 @@ var game = {
     })
 
   },
-  clearBattle: function(){
+  clearBattle: function () {
     $("#php").removeClass("hp-flash");
     $("#game-player").html("");
     $("#player-sayings").html("");
@@ -192,7 +201,7 @@ var game = {
     $("#foe-hp").html("");
     $("#attack-btn").html("");
   },
-  stageBattle: function (f){
+  stageBattle: function (f) {
     setTimeout(function () {
       $("#game-player").append(`
       <img id="player" src="${game.player.pic}" class="battle-pic img-fluid">
@@ -212,7 +221,7 @@ var game = {
         .addClass("attack-btn")
         .attr("id", "one-up")
 
-      $("#attack-btn").append(btn).css("margin-top","20px");
+      $("#attack-btn").append(btn).css("margin-top", "20px");
 
       $("#battle-wrapper").addClass("animated bounceInDown")
         .css("display", "block")
@@ -226,9 +235,6 @@ var game = {
       php -= f.attack;
       var fhp = $("#foe-hp").text()
       fhp -= game.player.attack;
-
-      console.log(php);
-      console.log(fhp);
 
       if (fhp > 0) {
         var rnd = Math.floor(Math.random() * game.player.sayings.length);
@@ -247,35 +253,60 @@ var game = {
               $("#foe").toggleClass("animated tada");
               $("#php").text(php).addClass("hp-flash");
               $("#fhp").toggleClass("hp-flash");
-              setTimeout(function(){
+              setTimeout(function () {
                 $("#php").toggleClass("hp-flash");
               }, 500)
             }, 500)
           }, 500)
         }
-        else{
+        else {
           console.log("YOU LOSE!")
         }
       }
       else {
-        console.log("YOU WIN!");
-        //remove foe from game.foes
-        game.foes.forEach((foe,i) => {
-          if (foe == f) {
-            game.foes.splice(i,1);
-          }
-        })
-        
-        console.log(game.foes);
-        //prep for next foe selection
-        $("#foes-wrapper").html("");
-        game.clear("#battle-wrapper");
-        console.log("CLEAR OUT!!! BATTLE WRAPPER!");
-        game.chooseFoe();
+        if (game.foe3 != "") {
+          game.clear("#battle-wrapper");
+          game.win();
+        }
+        else {
+          console.log("YOU WIN!");
+          //remove foe from game.foes
+          game.foes.forEach((foe, i) => {
+            if (foe == f) {
+              game.foes.splice(i, 1);
+            }
+          })
+
+          console.log(game.foes);
+          //prep for next foe selection
+          $("#foes-wrapper").html("");
+          game.clear("#battle-wrapper");
+          game.chooseFoe();
+        }
       }
 
     })
   },
+  win: function () {
+    setTimeout(function () {
+      $("#win-wrapper").addClass("animated bounceInDown")
+        .css("display", "block")
+    }, 1000);
+    var html = `<h3>${game.player.yay}</h3>
+    `;
+
+    var btn = $("<button>").text("Play Again").addClass("play-agn-btn");
+
+    $("#win-content").html(html);
+
+    $("body").on("click", ".play-agn-btn", function () {
+      game.clear("#win-wrapper");
+      game.start();
+    })
+
+  }
+
+
 }
 
 $(document).ready(function () {

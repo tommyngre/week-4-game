@@ -28,7 +28,7 @@ section{
 }
 
 /* hide all of these sections by default */
-#battle-wrapper, #bios-wrapper, #foe-selection-wrapper{
+#win-wrapper, #battle-wrapper, #bios-wrapper, #foe-selection-wrapper{
   display:none;
 }
 
