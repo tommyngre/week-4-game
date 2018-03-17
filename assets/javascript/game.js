@@ -14,7 +14,7 @@ var players = [
       "I made drawing questions!"
     ],
     hp: 250,
-    attack: 250,
+    attack: 45,
   },
   p2 = {
     key: "p2",
@@ -27,7 +27,8 @@ var players = [
     sayings: [
       "Three are better than one!",
       "I bested the Jiang Gang!",
-      "I made HTML-enabled notes!"
+      "I made HTML-enabled notes!",
+      "I trained Dandan Wang!"
     ],
     hp: 245,
     attack: 43,
@@ -41,9 +42,9 @@ var players = [
   his ostensible \"sidekick,\" Tuan, escaped notice more often than not. Thus, while Sonic did not run \
   the Dang Gang, he enabled Tuan's running of it. And he knew it.",
     sayings: [
-      "Nobody knows accessibility like me!",
+      "I know accessibility best!",
       "I have the best character tees!",
-      "My opinions are heard the loudest!"
+      "I speak screen-reader!"
     ],
     hp: 230,
     attack: 45,
@@ -57,9 +58,9 @@ var players = [
   and took him under their wings. Thusly, the duo became a trio and the Dang Gang became a powerful organization,\
   and perhaps the only viable threat to Mandy's supremacy. Mr. Sun knew his value too.",
     sayings: [
-      "My art is great than all but Mandy's old office-mate!",
-      "The mentee of the one-up master becomes the mentor!",
-      "Shh! Listen. This is the sound of you being one-upped!"
+      "I write the smallest!",
+      "The mentee will become the mentor!",
+      "I park closest! In handicap spaces..."
     ],
     hp: 210,
     attack: 44,
@@ -92,11 +93,10 @@ var game = {
         }
       })
       game.clear("#chars-selection-wrapper");
-      console.log("CLEAR OUT!!! CHAR SELECTION!");
     })
   },
   clear: function (div) {
-    $(div).removeClass("animated bounceInDown")
+    $(div).removeClass("bounceInDown")
       .addClass("animated bounceOutUp");
     setTimeout(function () {
       $(div).removeClass("bounceOutUp") //fixed?
@@ -120,16 +120,14 @@ var game = {
         .css("display", "block")
     }, 1000);
 
-    //had to bind to body for some reason... hm...
     $("body").on("click", ".continue-btn", function () {
       game.clear("#bios-wrapper");
-      console.log("CLEAR OUT!!! BIOS WRAPPER!");
       game.fight(f);
 
     })
   },
   chooseFoe: function () {
-    setTimeout(function () {
+    setTimeout(function () {      
       $("#foe-selection-wrapper").addClass("animated bounceInDown")
         .css("display", "block")
     }, 1000);
@@ -162,20 +160,16 @@ var game = {
           if (game.foe1 == "") {
             game.foe1 = f;
             game.clear("#foe-selection-wrapper");
-            console.log("CLEAR OUT!!! FOE 1!");
             game.story(game.foe1);
           }
           else if (game.foe2 == "") {
-            console.log("here");
             game.foe2 = f;
             game.clear("#foe-selection-wrapper");
-            console.log("CLEAR OUT!!! FOE 2!");
             game.fight(game.foe2);
           }
           else if (game.foe3 == "") {
             game.foe3 = f;
             game.clear("#foe-selection-wrapper");
-            console.log("CLEAR OUT!!! FOE 3!");
             game.fight(game.foe3);
           }
           else {
@@ -187,10 +181,18 @@ var game = {
     })
 
   },
-  fight: function (f) {
-    //console.log("who fightin?")
-    //console.log(game.player.name + " be fightin " + f.name);
-
+  clearBattle: function(){
+    $("#php").removeClass("hp-flash");
+    $("#game-player").html("");
+    $("#player-sayings").html("");
+    $("#player-hp").html("");
+    $("#game-foe").html("");
+    $("#fhp").removeClass("hp-flash");
+    $("#foe-sayings").html("");
+    $("#foe-hp").html("");
+    $("#attack-btn").html("");
+  },
+  stageBattle: function (f){
     setTimeout(function () {
       $("#game-player").append(`
       <img id="player" src="${game.player.pic}" class="battle-pic img-fluid">
@@ -215,7 +217,10 @@ var game = {
       $("#battle-wrapper").addClass("animated bounceInDown")
         .css("display", "block")
     }, 1000);
-
+  },
+  fight: function (f) {
+    this.clearBattle();
+    this.stageBattle(f);
     $("body").on("click", "#one-up", function () {
       var php = $("#player-hp").text();
       php -= f.attack;
@@ -254,6 +259,16 @@ var game = {
       }
       else {
         console.log("YOU WIN!");
+        //remove foe from game.foes
+        game.foes.forEach((foe,i) => {
+          if (foe == f) {
+            game.foes.splice(i,1);
+          }
+        })
+        
+        console.log(game.foes);
+        //prep for next foe selection
+        $("#foes-wrapper").html("");
         game.clear("#battle-wrapper");
         console.log("CLEAR OUT!!! BATTLE WRAPPER!");
         game.chooseFoe();
