@@ -218,7 +218,7 @@ var game = {
         .addClass("attack-btn")
         .attr("id", "one-up")
 
-      $("#attack-btn").append(btn);
+      $("#attack-btn").append(btn).css("margin-top","20px");
 
       $("#battle-wrapper").addClass("animated bounceInDown")
         .css("display", "block")

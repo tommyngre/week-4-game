@@ -9,6 +9,7 @@ body{
 .pixel-font{
   font-family: 'Press Start 2P', cursive;
 }
+
 .asd{
   display:block;
   min-width:1px;
@@ -74,8 +75,7 @@ section{
 }
 
 .hp{
-  margin-bottom:20px;
-  padding: 10px;
+  padding: 5px;
 }
 
 @keyframes hp-flash {
