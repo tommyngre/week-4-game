@@ -12,10 +12,12 @@ var players = [
       "I made drawing questions!"
     ],
     hp: 250,
-    attack: 250,
+    attack: 43,
     yay: "But that's no surprise. You're the best.\
     You conquered the realm and kept the Dang Gang at bay - to no one's surprise, \
     with that great intellect of yours!",
+    boo: "You always win, so this must be crushing. \
+    But you'll get em next time!"
   },
   p2 = {
     key: "p2",
@@ -29,13 +31,16 @@ var players = [
       "Three are better than one!",
       "I bested the Jiang Gang!",
       "I made HTML-enabled notes!",
-      "I trained Dandan Wang!"
+      "I trained Dandan Wang!",
     ],
     hp: 245,
     attack: 43,
     yay: "You did the impossible. You one-upped Mandy! And on the way, \
     you held the ang Gang together despite a spirited insurrection. \
-    Tuandangit you're good, but don't get cocky; gambling me say that's when Mandy'll getcha."
+    Tuandangit you're good, but don't get cocky; gambling me say that's when Mandy'll getcha.",
+    boo: "No one can fault you for trying. \
+    You thought you had a winning team - the Dang Gang! \
+    Maybe you do. Maybe next time."
   },
   p3 = {
     key: "p3",
@@ -54,7 +59,10 @@ var players = [
     attack: 45,
     yay: "Incredible! You showed Tuan who's boss. Now you run the Dang Gang! \
     Not only that, you managed to one-up Mandy on the way. \
-    But keep an eye out; Mandy's not the type to go gently into that good night. "
+    But keep an eye out; Mandy's not the type to go gently into that good night. ",
+    boo: "You might have thought the Dang Gang was stifling, \
+    that you ought to just do it on your own. \
+    But you fell short. Maybe next time."
   },
   p4 = {
     key: "p4",
@@ -73,9 +81,16 @@ var players = [
     attack: 44,
     yay: "Very impressive, Mr. Sun! You bested your mentor, Mandy \
     and have placed in a formidable headlock those who took you under their wings. \
-    You command the Dang Dang. Tuan and Sonic answer to you now... for now."
+    You command the Dang Dang. Tuan and Sonic answer to you now... for now.",
+    boo: "As your mentor, Mandy set a high bar for you. \
+    You might have thought you were ready to take her on, \
+    but you're not quite ready yet. \
+    Maybe next time."
   }
 ];
+
+var startover = document.getElementById("startover");
+console.log(startover);
 
 var game = {
   player: '',
@@ -93,10 +108,11 @@ var game = {
     //battle
     if (i == "new") {
       setTimeout(function () {
+        game.clearBattle();
         $("#chars-selection-wrapper").addClass("animated bounceInDown")
           .css("display", "block")
       }, 1000);
-      $("#foes-wrapper").html("");  
+      $("#foes-wrapper").html("");
     } else {
       this.choosePlayer();
     }
@@ -183,7 +199,7 @@ var game = {
             game.foe1 = f;
             console.log("f foe1");
             console.log(f);
-              game.clear("#foe-selection-wrapper");
+            game.clear("#foe-selection-wrapper");
             game.story(game.foe1);
           }
           else if (game.foe2 == "") {
@@ -247,7 +263,7 @@ var game = {
     `)
 
       $("#attack-btn").html(`<button id="one-up" class="attack-btn">One-up Attack!</button>`);
-      
+
       $("#battle-wrapper").addClass("animated bounceInDown")
         .css("display", "block")
     }, 1000);
@@ -284,7 +300,10 @@ var game = {
           }, 500)
         }
         else {
-          console.log("YOU LOSE!")
+          $("#php").text("0").addClass("hp-flash")
+            .css("color", "red");
+          console.log("YOU LOSE!");
+          game.loser(f);
         }
       }
       else {
@@ -294,7 +313,8 @@ var game = {
         }
         else {
           console.log("YOU WIN!");
-          //remove foe from game.foes
+          $("#fhp").text("0").addClass("hp-flash")
+            .css("color", "red");
           //prep for next foe selection
           $("#foes-wrapper").html("");
           game.clear("#battle-wrapper");
@@ -320,10 +340,30 @@ var game = {
       game.clear("#win-wrapper");
       game.start("new");
     })
+  },
+  loser: function (f) {
+    $("#attack-btn").prop("disabled",true);
+    $("#boo").text(game.player.boo);
+    setTimeout(function () {
+      $("#gameover-modal").css("display", "block");
+      $("#modal-content").addClass("animated bounceInDown");
+    }, 1000);
+
+    window.onclick = function (e) {
+      if (e.target == startover) {
+        console.log("clicked startover");
+        $("#gameover-modal").css("display", "none");
+        game.clear("#battle-wrapper");
+        game.start("new");
+      } else {
+        $("#gameover-modal").css("display", "none");
+      }
+    }
   }
 }
-$(document).ready(function () {
 
-  game.start();
+    $(document).ready(function () {
 
-});
+      game.start();
+
+    });
