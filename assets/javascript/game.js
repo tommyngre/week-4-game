@@ -12,9 +12,10 @@ var players = [
       "I made drawing questions!"
     ],
     hp: 250,
-    attack: 45,
+    attack: 250,
     yay: "But that's no surprise. You're the best.\
-    You conquered conquered the realm and kept the Dang Gang at bay.",
+    You conquered the realm and kept the Dang Gang at bay - to no one's surprise, \
+    with that great intellect of yours!",
   },
   p2 = {
     key: "p2",
@@ -66,7 +67,7 @@ var players = [
     sayings: [
       "I write the smallest!",
       "The mentee will become the mentor!",
-      "I park closest! In handicap spaces..."
+      "My parking spots are best! Handicap!"
     ],
     hp: 210,
     attack: 44,
@@ -74,7 +75,7 @@ var players = [
     and have placed in a formidable headlock those who took you under their wings. \
     You command the Dang Dang. Tuan and Sonic answer to you now... for now."
   }
-]
+];
 
 var game = {
   player: '',
@@ -82,13 +83,23 @@ var game = {
   foe1: '',
   foe2: '',
   foe3: '',
-  start: function () {
+  start: function (i) {
     this.player = '';
     this.foes = [];
     this.foe1 = '';
     this.foe2 = '';
     this.foe3 = '';
-    this.choosePlayer();
+    $("#bios-content-wrapper").html("");
+    //battle
+    if (i == "new") {
+      setTimeout(function () {
+        $("#chars-selection-wrapper").addClass("animated bounceInDown")
+          .css("display", "block")
+      }, 1000);
+      $("#foes-wrapper").html("");  
+    } else {
+      this.choosePlayer();
+    }
   },
   choosePlayer: function () {
     $(".char-button").on("click", function () {
@@ -120,13 +131,13 @@ var game = {
   story: function (f) {
     setTimeout(function () {
 
-      var btn = $("<button>").text("Continue").addClass("continue-btn");
+      var btn = $("<button>").text("Continue").addClass("mx-auto continue-btn");
 
-      $("#bios-wrapper").append(`<h2> ${game.player.bio} </h2>`)
+      $("#bios-content-wrapper").append(`<h2> ${game.player.bio} </h2>`)
         .append(`<h2> ${f.bio} "</h2>`)
         .append(btn)
-        .addClass("animated bounceInDown")
-        .css("display", "block")
+        .addClass("animated bounceInDown");
+      $("#bios-wrapper").css("display", "block")
     }, 1000);
 
     $("body").on("click", ".continue-btn", function () {
@@ -203,33 +214,29 @@ var game = {
   },
   stageBattle: function (f) {
     setTimeout(function () {
-      $("#game-player").append(`
+      $("#game-player").html(`
       <img id="player" src="${game.player.pic}" class="battle-pic img-fluid">
     `)
-      $("#player-hp").append(`
+      $("#player-hp").html(`
       <span id="php" class="hp text-center pixel-font">${game.player.hp}</span>
     `)
 
-      $("#game-foe").append(`
+      $("#game-foe").html(`
     <img id="foe" src="${f.foePic}" class="battle-pic img-fluid">
     `)
-      $("#foe-hp").append(`
+      $("#foe-hp").html(`
     <span id="fhp" class="hp text-center pixel-font">${f.hp}</span>
     `)
 
-      var btn = $("<button>").text("One-up Attack!")
-        .addClass("attack-btn")
-        .attr("id", "one-up")
-
-      $("#attack-btn").append(btn).css("margin-top", "20px");
-
+      $("#attack-btn").html(`<button id="one-up" class="attack-btn">One-up Attack!</button>`);
+      
       $("#battle-wrapper").addClass("animated bounceInDown")
         .css("display", "block")
     }, 1000);
   },
   fight: function (f) {
-    this.clearBattle();
-    this.stageBattle(f);
+    game.clearBattle();
+    game.stageBattle(f);
     $("body").on("click", "#one-up", function () {
       var php = $("#player-hp").text();
       php -= f.attack;
@@ -238,7 +245,6 @@ var game = {
 
       if (fhp > 0) {
         var rnd = Math.floor(Math.random() * game.player.sayings.length);
-        console.log(php);
         $("#player").toggleClass("animated tada");
         $("#player-sayings").addClass("sayings pixel-font").text(game.player.sayings[rnd]);
 
@@ -276,8 +282,6 @@ var game = {
               game.foes.splice(i, 1);
             }
           })
-
-          console.log(game.foes);
           //prep for next foe selection
           $("#foes-wrapper").html("");
           game.clear("#battle-wrapper");
@@ -292,23 +296,19 @@ var game = {
       $("#win-wrapper").addClass("animated bounceInDown")
         .css("display", "block")
     }, 1000);
-    var html = `<h3>${game.player.yay}</h3>
-    `;
+    var html = `<h3>${game.player.yay}</h3>`;
 
-    var btn = $("<button>").text("Play Again").addClass("play-agn-btn");
+    var btn = $("<button>").text("Play Again").attr("id", "play-agn-btn")
+      .addClass("mx-auto play-agn-btn");
 
-    $("#win-content").html(html);
+    $("#win-content").html(html).append(btn);
 
-    $("body").on("click", ".play-agn-btn", function () {
+    $("body").on("click", "#play-agn-btn", function () {
       game.clear("#win-wrapper");
-      game.start();
+      game.start("new");
     })
-
   }
-
-
 }
-
 $(document).ready(function () {
 
   game.start();
