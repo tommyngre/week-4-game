@@ -172,23 +172,31 @@ var game = {
     $(".char-button").on("click", function () {
       var foeId = $.trim(this.id);
       var f;
-
+      console.log("f initialized");
+      console.log(f);
       game.foes.forEach(function (foe) {
         if (foe.key == foeId) {
           f = foe;
-
+          console.log("f before foe#s");
+          console.log(f);
           if (game.foe1 == "") {
             game.foe1 = f;
-            game.clear("#foe-selection-wrapper");
+            console.log("f foe1");
+            console.log(f);
+              game.clear("#foe-selection-wrapper");
             game.story(game.foe1);
           }
           else if (game.foe2 == "") {
             game.foe2 = f;
+            console.log("f foe2");
+            console.log(f);
             game.clear("#foe-selection-wrapper");
             game.fight(game.foe2);
           }
           else if (game.foe3 == "") {
             game.foe3 = f;
+            console.log("f foe3");
+            console.log(f);
             game.clear("#foe-selection-wrapper");
             game.fight(game.foe3);
           }
@@ -201,7 +209,7 @@ var game = {
     })
 
   },
-  clearBattle: function () {
+  clearBattle: function (f) {
     $("#php").removeClass("hp-flash");
     $("#game-player").html("");
     $("#player-sayings").html("");
@@ -211,8 +219,18 @@ var game = {
     $("#foe-sayings").html("");
     $("#foe-hp").html("");
     $("#attack-btn").html("");
+    //remove from game.foes array
+    game.foes.forEach((foe, i) => {
+      if (foe.key == f.key) {
+        console.log("gettin spliced:")
+        console.log(f.key);
+        game.foes.splice(i, 1);
+      }
+    })
+
   },
   stageBattle: function (f) {
+    console.log(f);
     setTimeout(function () {
       $("#game-player").html(`
       <img id="player" src="${game.player.pic}" class="battle-pic img-fluid">
@@ -235,7 +253,7 @@ var game = {
     }, 1000);
   },
   fight: function (f) {
-    game.clearBattle();
+    game.clearBattle(f);
     game.stageBattle(f);
     $("body").on("click", "#one-up", function () {
       var php = $("#player-hp").text();
@@ -277,11 +295,6 @@ var game = {
         else {
           console.log("YOU WIN!");
           //remove foe from game.foes
-          game.foes.forEach((foe, i) => {
-            if (foe == f) {
-              game.foes.splice(i, 1);
-            }
-          })
           //prep for next foe selection
           $("#foes-wrapper").html("");
           game.clear("#battle-wrapper");
