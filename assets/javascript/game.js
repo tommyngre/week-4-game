@@ -98,21 +98,27 @@ var game = {
   foe1: '',
   foe2: '',
   foe3: '',
-  start: function (i) {
+  cleanup: function () {
     this.player = '';
     this.foes = [];
     this.foe1 = '';
     this.foe2 = '';
     this.foe3 = '';
+    $("#foes-wrapper").html("");
     $("#bios-content-wrapper").html("");
+    game.clearBattle();
+  },
+  load: function (div) {
+    setTimeout(function () {
+      $(div).addClass("animated bounceInDown")
+        .css("display", "block")
+    }, 1000);
+  },
+  start: function (i) {
     //battle
     if (i == "new") {
-      setTimeout(function () {
-        game.clearBattle();
-        $("#chars-selection-wrapper").addClass("animated bounceInDown")
-          .css("display", "block")
-      }, 1000);
-      $("#foes-wrapper").html("");
+      this.cleanup();
+      this.load("#chars-selection-wrapper");
     } else {
       this.choosePlayer();
     }
@@ -163,11 +169,17 @@ var game = {
     })
   },
   chooseFoe: function () {
-    setTimeout(function () {
-      $("#foe-selection-wrapper").addClass("animated bounceInDown")
-        .css("display", "block")
-    }, 1000);
+    this.load("#foe-selection-wrapper");
 
+    //customize messae on foe selection scrn
+    if (game.foes.length == 1) {
+      $("#next").text("final ");
+    }
+    else if (game.foes.length < players.length - 1) {
+      $("#next").text("next ");
+    }
+
+    //draw foe buttons
     game.foes.forEach(function (foe) {
 
       var html = `
@@ -188,36 +200,30 @@ var game = {
     $(".char-button").on("click", function () {
       var foeId = $.trim(this.id);
       var f;
-      console.log("f initialized");
-      console.log(f);
+
+      //funnel foes into battle
       game.foes.forEach(function (foe) {
         if (foe.key == foeId) {
           f = foe;
-          console.log("f before foe#s");
-          console.log(f);
+          //f should always be set
+
           if (game.foe1 == "") {
             game.foe1 = f;
-            console.log("f foe1");
-            console.log(f);
             game.clear("#foe-selection-wrapper");
             game.story(game.foe1);
           }
           else if (game.foe2 == "") {
             game.foe2 = f;
-            console.log("f foe2");
-            console.log(f);
             game.clear("#foe-selection-wrapper");
             game.fight(game.foe2);
           }
           else if (game.foe3 == "") {
             game.foe3 = f;
-            console.log("f foe3");
-            console.log(f);
             game.clear("#foe-selection-wrapper");
             game.fight(game.foe3);
           }
           else {
-            //gameover handling
+            //shouldn't arrive here
           }
 
         }
@@ -226,6 +232,7 @@ var game = {
 
   },
   clearBattle: function (f) {
+    //cleanup battle-wrapper between battles
     $("#php").removeClass("hp-flash");
     $("#game-player").html("");
     $("#player-sayings").html("");
@@ -235,11 +242,10 @@ var game = {
     $("#foe-sayings").html("");
     $("#foe-hp").html("");
     $("#attack-btn").html("");
-    //remove from game.foes array
+
+    //remove f from game.foes array
     game.foes.forEach((foe, i) => {
       if (foe.key == f.key) {
-        console.log("gettin spliced:")
-        console.log(f.key);
         game.foes.splice(i, 1);
       }
     })
@@ -268,42 +274,54 @@ var game = {
         .css("display", "block")
     }, 1000);
   },
+  attack: function (player, sayings, f) {
+    if (player == "#player") {
+      var rnd = Math.floor(Math.random() * game.player.sayings.length + 1);
+      $(player).addClass("animated tada");
+      $(sayings).addClass("sayings pixel-font").text(game.player.sayings[rnd]);
+    } else {
+      var rnd = Math.floor(Math.random() * f.sayings.length + 1);
+      $(player).addClass("animated tada");
+      $(sayings).addClass("sayings pixel-font").text(f.sayings[rnd]);
+    }
+
+    setTimeout(function () {
+      $(player).removeClass("tada");
+    }, 400);
+  },
+  hpflash: function (hp) {
+    setTimeout(function () {
+      $(hp).removeClass("hp-flash");
+    }, 300);
+  }
+  ,
   fight: function (f) {
     game.clearBattle(f);
     game.stageBattle(f);
     $("body").on("click", "#one-up", function () {
+
+      //calculate outcome of attack
       var php = $("#player-hp").text();
       php -= f.attack;
       var fhp = $("#foe-hp").text()
       fhp -= game.player.attack;
 
+      //battle logic
       if (fhp > 0) {
-        var rnd = Math.floor(Math.random() * game.player.sayings.length);
-        $("#player").toggleClass("animated tada");
-        $("#player-sayings").addClass("sayings pixel-font").text(game.player.sayings[rnd]);
+        game.attack("#player", "#player-sayings", f);
+        $("#fhp").text(fhp).addClass("animated hp-flash");
+        game.hpflash("#fhp");
 
         if (php > 0) {
           setTimeout(function () {
-            var rnd = Math.floor(Math.random() * game.player.sayings.length);
-            $("#foe").toggleClass("animated tada");
-            $("#foe-sayings").addClass("sayings pixel-font").text(f.sayings[rnd]);
-            $("#player").toggleClass("animated tada")
-            $("#fhp").text(fhp).addClass("hp-flash");
-            setTimeout(function () {
-              $("#foe").toggleClass("animated tada");
-              $("#php").text(php).addClass("hp-flash");
-              $("#fhp").toggleClass("hp-flash");
-              setTimeout(function () {
-                $("#php").toggleClass("hp-flash");
-              }, 500)
-            }, 500)
-          }, 500)
-        }
-        else {
+            game.attack("#foe", "#foe-sayings", f);
+            $("#php").text(php).addClass("animated hp-flash");
+            game.hpflash("#php");
+          })
+        } else {
           $("#php").text("0").addClass("hp-flash")
             .css("color", "red");
-          console.log("YOU LOSE!");
-          game.loser(f);
+          game.lose(f);
         }
       }
       else {
@@ -312,9 +330,9 @@ var game = {
           game.win();
         }
         else {
-          console.log("YOU WIN!");
           $("#fhp").text("0").addClass("hp-flash")
             .css("color", "red");
+
           //prep for next foe selection
           $("#foes-wrapper").html("");
           game.clear("#battle-wrapper");
@@ -325,10 +343,7 @@ var game = {
     })
   },
   win: function () {
-    setTimeout(function () {
-      $("#win-wrapper").addClass("animated bounceInDown")
-        .css("display", "block")
-    }, 1000);
+    this.load("#win-wrapper");
     var html = `<h3>${game.player.yay}</h3>`;
 
     var btn = $("<button>").text("Play Again").attr("id", "play-agn-btn")
@@ -341,17 +356,13 @@ var game = {
       game.start("new");
     })
   },
-  loser: function (f) {
-    $("#attack-btn").prop("disabled",true);
+  lose: function (f) {
+    $("#attack-btn").prop("disabled", true);
     $("#boo").text(game.player.boo);
-    setTimeout(function () {
-      $("#gameover-modal").css("display", "block");
-      $("#modal-content").addClass("animated bounceInDown");
-    }, 1000);
+    this.load("#gameover-modal");
 
     window.onclick = function (e) {
       if (e.target == startover) {
-        console.log("clicked startover");
         $("#gameover-modal").css("display", "none");
         game.clear("#battle-wrapper");
         game.start("new");
@@ -362,8 +373,8 @@ var game = {
   }
 }
 
-    $(document).ready(function () {
+$(document).ready(function () {
 
-      game.start();
+  game.start();
 
-    });
+});
