@@ -11,8 +11,8 @@ var players = [
       "My office-mate was the best!",
       "I made drawing questions!"
     ],
-    hp: 100,
-    ap: 10,
+    hp: 161,
+    ap: 13,
     bonus: 1,
     yay: "But that's no surprise. You're the best.\
     You conquered the realm and kept the Dang Gang at bay - to no one's surprise, \
@@ -34,8 +34,8 @@ var players = [
       "I made HTML-enabled notes!",
       "I trained Dandan Wang!",
     ],
-    hp: 90,
-    ap: 14,
+    hp: 95,
+    ap: 13,
     bonus: 2,
     yay: "You did the impossible. You one-upped Mandy! And on the way, \
     you held the ang Gang together despite a spirited insurrection. \
@@ -57,9 +57,9 @@ var players = [
       "I have the best character tees!",
       "I speak screen-reader!"
     ],
-    hp: 80,
-    ap: 18,
-    bonus: 3,
+    hp: 83,
+    ap: 15,
+    bonus: 2,
     yay: "Incredible! You showed Tuan who's boss. Now you run the Dang Gang! \
     Not only that, you managed to one-up Mandy on the way. \
     But keep an eye out; Mandy's not the type to go gently into that good night. ",
@@ -80,9 +80,9 @@ var players = [
       "The mentee will become the mentor!",
       "My parking spots are best! Handicap!"
     ],
-    hp: 70,
-    ap: 22,
-    bonus: 4,
+    hp: 75,
+    ap: 19,
+    bonus: 3,
     yay: "Very impressive, Mr. Sun! You bested your mentor, Mandy \
     and have placed in a formidable headlock those who took you under their wings. \
     You command the Dang Dang. Tuan and Sonic answer to you now... for now.",
@@ -240,6 +240,7 @@ var game = {
   },
   clearBattle: function () {
     //cleanup battle-wrapper between battles
+    setTimeout(function () {
     $("#php").removeClass("hp-flash");
     $("#game-player").html("");
     $("#player-sayings").html("");
@@ -249,7 +250,7 @@ var game = {
     $("#foe-sayings").html("");
     $("#foe-hp").html("");
     $("#attack-btn").html("");
-
+    },500);
   },
   stageBattle: function (f) {
     console.log("staging battle with 'f'")
@@ -313,12 +314,16 @@ var game = {
       console.log(game.player.ap + " " + (game.player.bonus * cnt));
 
       //battle logic
-      //if the foe will survive the next attack, launch
+      //if the foe will survive the next attack
+      ///launch attack
+      ///modify foe health
       if (fhp > 0) {
         game.attack("#player", "#player-sayings", f);
         $("#fhp").text(fhp).addClass("animated hp-flash");
         game.hpflash("#fhp");
         //if player will survive counter-attack, launch
+        ///launch counter-attack
+        ///modify player health
         if (php > 0) {
           setTimeout(function () {
             game.attack("#foe", "#foe-sayings", f);
@@ -326,8 +331,9 @@ var game = {
             game.hpflash("#php");
           }, 500)
         //if player will not survive counter-attack, handle loss-gameover
+        ///change player hp to zero and freeze red
         } else {
-          $("#fhp").text("0").addClass("hp-flash")
+          $("#php").text("0").addClass("hp-flash")
             .css("color", "red");
           game.removeFoe(f);
           game.lose();
@@ -336,6 +342,7 @@ var game = {
       //if foe will not survice attack, handle win
       else {
         //if foe 3 not set, go to next battle
+        ///change foe hp to zero and freeze red
         if (game.foe3 != "") {
           $("#fhp").text("0").addClass("hp-flash")
           .css("color", "red");
@@ -352,9 +359,7 @@ var game = {
           $("#foes-wrapper").html("");
           game.clear("#battle-wrapper");
           //clear elements while display:none
-          setTimeout(function () {
-            game.clearBattle();
-          }, 500);
+          game.clearBattle();
           //remove foe from foe ary
           game.removeFoe(f);
           game.chooseFoe();
