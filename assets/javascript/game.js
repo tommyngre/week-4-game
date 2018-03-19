@@ -11,12 +11,13 @@ var players = [
       "My office-mate was the best!",
       "I made drawing questions!"
     ],
-    hp: 250,
-    attack: 43,
+    hp: 100,
+    ap: 10,
+    bonus: 1,
     yay: "But that's no surprise. You're the best.\
     You conquered the realm and kept the Dang Gang at bay - to no one's surprise, \
     with that great intellect of yours!",
-    boo: "You always win, so this must be crushing. \
+    womp: "You always win, so this must be crushing. \
     But you'll get em next time!"
   },
   p2 = {
@@ -33,12 +34,13 @@ var players = [
       "I made HTML-enabled notes!",
       "I trained Dandan Wang!",
     ],
-    hp: 245,
-    attack: 43,
+    hp: 90,
+    ap: 14,
+    bonus: 2,
     yay: "You did the impossible. You one-upped Mandy! And on the way, \
     you held the ang Gang together despite a spirited insurrection. \
     Tuandangit you're good, but don't get cocky; gambling me say that's when Mandy'll getcha.",
-    boo: "No one can fault you for trying. \
+    womp: "No one can fault you for trying. \
     You thought you had a winning team - the Dang Gang! \
     Maybe you do. Maybe next time."
   },
@@ -55,12 +57,13 @@ var players = [
       "I have the best character tees!",
       "I speak screen-reader!"
     ],
-    hp: 230,
-    attack: 45,
+    hp: 80,
+    ap: 18,
+    bonus: 3,
     yay: "Incredible! You showed Tuan who's boss. Now you run the Dang Gang! \
     Not only that, you managed to one-up Mandy on the way. \
     But keep an eye out; Mandy's not the type to go gently into that good night. ",
-    boo: "You might have thought the Dang Gang was stifling, \
+    womp: "You might have thought the Dang Gang was stifling, \
     that you ought to just do it on your own. \
     But you fell short. Maybe next time."
   },
@@ -77,12 +80,13 @@ var players = [
       "The mentee will become the mentor!",
       "My parking spots are best! Handicap!"
     ],
-    hp: 210,
-    attack: 44,
+    hp: 70,
+    ap: 22,
+    bonus: 4,
     yay: "Very impressive, Mr. Sun! You bested your mentor, Mandy \
     and have placed in a formidable headlock those who took you under their wings. \
     You command the Dang Dang. Tuan and Sonic answer to you now... for now.",
-    boo: "As your mentor, Mandy set a high bar for you. \
+    womp: "As your mentor, Mandy set a high bar for you. \
     You might have thought you were ready to take her on, \
     but you're not quite ready yet. \
     Maybe next time."
@@ -90,7 +94,6 @@ var players = [
 ];
 
 var startover = document.getElementById("startover");
-console.log(startover);
 
 var game = {
   player: '',
@@ -213,11 +216,15 @@ var game = {
             game.story(game.foe1);
           }
           else if (game.foe2 == "") {
+            //give player bonus
+            game.player.ap += game.player.bonus;
             game.foe2 = f;
             game.clear("#foe-selection-wrapper");
             game.fight(game.foe2);
           }
           else if (game.foe3 == "") {
+            //another bonus
+            game.player.ap += game.player.bonus;
             game.foe3 = f;
             game.clear("#foe-selection-wrapper");
             game.fight(game.foe3);
@@ -231,7 +238,7 @@ var game = {
     })
 
   },
-  clearBattle: function (f) {
+  clearBattle: function () {
     //cleanup battle-wrapper between battles
     $("#php").removeClass("hp-flash");
     $("#game-player").html("");
@@ -243,16 +250,10 @@ var game = {
     $("#foe-hp").html("");
     $("#attack-btn").html("");
 
-    //remove f from game.foes array
-    game.foes.forEach((foe, i) => {
-      if (foe.key == f.key) {
-        game.foes.splice(i, 1);
-      }
-    })
-
   },
   stageBattle: function (f) {
-    console.log(f);
+    console.log("staging battle with 'f'")
+    console.log(f.name);
     setTimeout(function () {
       $("#game-player").html(`
       <img id="player" src="${game.player.pic}" class="battle-pic img-fluid">
@@ -268,7 +269,7 @@ var game = {
     <span id="fhp" class="hp text-center pixel-font">${f.hp}</span>
     `)
 
-      $("#attack-btn").html(`<button id="one-up" class="attack-btn">One-up Attack!</button>`);
+      $("#attack-btn").html(`<button id="one-up" class="attack-btn">One-up!</button>`);
 
       $("#battle-wrapper").addClass("animated bounceInDown")
         .css("display", "block")
@@ -293,42 +294,56 @@ var game = {
     setTimeout(function () {
       $(hp).removeClass("hp-flash");
     }, 300);
-  }
-  ,
+  },
   fight: function (f) {
-    game.clearBattle(f);
-    game.stageBattle(f);
-    $("body").on("click", "#one-up", function () {
+    this.stageBattle(f);
+
+    //count var to handle bonus 
+    var cnt = -1;
+
+    $("body").off("click").on("click", "#one-up", function () {
+
+      cnt++;
 
       //calculate outcome of attack
-      var php = $("#player-hp").text();
-      php -= f.attack;
-      var fhp = $("#foe-hp").text()
-      fhp -= game.player.attack;
+      var php = $("#php").text();
+      php -= f.ap;      
+      var fhp = $("#fhp").text()
+      fhp -= (game.player.ap + (game.player.bonus*cnt));
+      console.log(game.player.ap + " " + (game.player.bonus * cnt));
 
       //battle logic
+      //if the foe will survive the next attack, launch
       if (fhp > 0) {
         game.attack("#player", "#player-sayings", f);
         $("#fhp").text(fhp).addClass("animated hp-flash");
         game.hpflash("#fhp");
-
+        //if player will survive counter-attack, launch
         if (php > 0) {
           setTimeout(function () {
             game.attack("#foe", "#foe-sayings", f);
             $("#php").text(php).addClass("animated hp-flash");
             game.hpflash("#php");
-          })
+          }, 500)
+        //if player will not survive counter-attack, handle loss-gameover
         } else {
-          $("#php").text("0").addClass("hp-flash")
+          $("#fhp").text("0").addClass("hp-flash")
             .css("color", "red");
-          game.lose(f);
+          game.removeFoe(f);
+          game.lose();
         }
       }
+      //if foe will not survice attack, handle win
       else {
+        //if foe 3 not set, go to next battle
         if (game.foe3 != "") {
+          $("#fhp").text("0").addClass("hp-flash")
+          .css("color", "red");
           game.clear("#battle-wrapper");
+          game.removeFoe(f);
           game.win();
         }
+        //if foe 3 set, then handle win-gameover
         else {
           $("#fhp").text("0").addClass("hp-flash")
             .css("color", "red");
@@ -336,12 +351,29 @@ var game = {
           //prep for next foe selection
           $("#foes-wrapper").html("");
           game.clear("#battle-wrapper");
+          //clear elements while display:none
+          setTimeout(function () {
+            game.clearBattle();
+          }, 500);
+          //remove foe from foe ary
+          game.removeFoe(f);
           game.chooseFoe();
         }
       }
 
     })
   },
+  removeFoe: function (f) {
+    //remove defeated f from game.foes array
+    game.foes.forEach((foe, i) => {
+      if (foe.key == f.key) {
+        console.log("foe gettin spliced:");
+        console.log(foe.name);
+        game.foes.splice(i, 1);
+      }
+    })
+  }
+  ,
   win: function () {
     this.load("#win-wrapper");
     var html = `<h3>${game.player.yay}</h3>`;
@@ -358,7 +390,7 @@ var game = {
   },
   lose: function (f) {
     $("#attack-btn").prop("disabled", true);
-    $("#boo").text(game.player.boo);
+    $("#womp").text(game.player.womp);
     this.load("#gameover-modal");
 
     window.onclick = function (e) {
