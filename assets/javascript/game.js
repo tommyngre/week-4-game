@@ -13,7 +13,7 @@ var players = [
     ],
     hp: 161,
     ap: 13,
-    bonus: 1,
+    bonus: 0,
     yay: "But that's no surprise. You're the best.\
     You conquered the realm and kept the Dang Gang at bay - to no one's surprise, \
     with that great intellect of yours!",
@@ -80,8 +80,8 @@ var players = [
       "The mentee will become the mentor!",
       "My parking spots are best! Handicap!"
     ],
-    hp: 75,
-    ap: 19,
+    hp: 58,
+    ap: 25,
     bonus: 3,
     yay: "Very impressive, Mr. Sun! You bested your mentor, Mandy \
     and have placed in a formidable headlock those who took you under their wings. \
@@ -253,8 +253,6 @@ var game = {
     },500);
   },
   stageBattle: function (f) {
-    console.log("staging battle with 'f'")
-    console.log(f.name);
     setTimeout(function () {
       $("#game-player").html(`
       <img id="player" src="${game.player.pic}" class="battle-pic img-fluid">
@@ -311,7 +309,6 @@ var game = {
       php -= f.ap;      
       var fhp = $("#fhp").text()
       fhp -= (game.player.ap + (game.player.bonus*cnt));
-      console.log(game.player.ap + " " + (game.player.bonus * cnt));
 
       //battle logic
       //if the foe will survive the next attack
@@ -372,8 +369,6 @@ var game = {
     //remove defeated f from game.foes array
     game.foes.forEach((foe, i) => {
       if (foe.key == f.key) {
-        console.log("foe gettin spliced:");
-        console.log(foe.name);
         game.foes.splice(i, 1);
       }
     })

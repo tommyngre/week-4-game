@@ -6,14 +6,14 @@
 
 # The details
 ## With each attack, the player's character accrues an attack point (AP) bonus.
-### For example, the first time Mr. Sun attacks his AP is 19.
-### The second time he attacks his AP is 22 (19 + 3)
-### The third time he attacks his AP is 25 (19 + 3 + 3)
+### For example, the first time Mr. Sun attacks his AP is 25.
+### The second time he attacks his AP is 28 (25 + 3)
+### The third time he attacks his AP is 31 (25 + 3 + 3)
 ### The formula for AP/turn is: Initial AP + (3 * turn)
 ## But note, the attack bonus' settle down between opponents. 
-### For example, let's say Mr. Sun defeats his first opponent after three turns, when his AP is 25. He does not start the next round at 25, nor 28. He cools off, so to speak; he starts the next round at 22.
+### For example, let's say Mr. Sun defeats his first opponent after three turns, when his AP is 31. He does not start the next round at 31, nor 34. He cools off, so to speak; he starts the next round at 28.
 ### The formula for AP/round is: Initial AP + (bonus * battle round))
-### He'll start the third round at 25.
+### He'll start the third round at 31.
 
 # Character notes:
 ## Tuan, Sonic, and Mr. Sun will lose if they choose to fight Mandy first.
