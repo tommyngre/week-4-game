@@ -18,7 +18,7 @@ var players = [
     ],
     hp: 400,
     ap: 10,
-    bonus: 1,
+    bonus: 0,
     yay: "But that's no surprise. You're the best.\
     You conquered the realm and kept the Dang Gang at bay - to no one's surprise, \
     with that great intellect of yours!",
@@ -45,7 +45,7 @@ var players = [
     ],
     hp: 260,
     ap: 15,
-    bonus: 2,
+    bonus: 1,
     yay: "You did the impossible. You one-upped Mandy! And on the way, \
     you held the ang Gang together despite a spirited insurrection. \
     Tuandangit you're good, but don't get cocky; gambling me say that's when Mandy'll getcha.",
@@ -71,7 +71,7 @@ var players = [
     ],
     hp: 150,
     ap: 20,
-    bonus: 5,
+    bonus: 3,
     yay: "Incredible! You showed Tuan who's boss. Now you run the Dang Gang! \
     Not only that, you managed to one-up Mandy on the way. \
     But keep an eye out; Mandy's not the type to go gently into that good night. ",
@@ -96,9 +96,9 @@ var players = [
       "My last name is a star!",
       "I have the most posters of anime chicks!"
     ],
-    hp: 80,
+    hp: 85,
     ap: 25,
-    bonus: 10,
+    bonus: 7,
     yay: "Very impressive, Mr. Sun! You bested your mentor, Mandy \
     and have placed in a formidable headlock those who took you under their wings. \
     You command the Dang Dang. Tuan and Sonic answer to you now... for now.",
@@ -306,11 +306,11 @@ var game = {
   },
   attack: function (player, sayings, f) {
     if (player == "#player") {
-      var rnd = Math.round(Math.random() * game.player.sayings.length);
+      var rnd = Math.floor(Math.random() * game.player.sayings.length);
       $(player).addClass("animated tada");
       $(sayings).addClass("animated tada sayings pixel-font").text(game.player.sayings[rnd]);
     } else {
-      var rnd = Math.round(Math.random() * f.sayings.length);
+      var rnd = Math.floor(Math.random() * f.sayings.length);
       $(player).addClass("animated tada");
       $(sayings).addClass("animated tada sayings pixel-font").text(f.sayings[rnd]);
     }
