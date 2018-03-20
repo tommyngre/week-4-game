@@ -17,8 +17,8 @@ var players = [
       "I one-upped Sumit at GLG!"
     ],
     hp: 400,
-    ap: 10,
-    bonus: 0,
+    ap: 4,
+    bonus: 1,
     yay: "But that's no surprise. You're the best.\
     You conquered the realm and kept the Dang Gang at bay - to no one's surprise, \
     with that great intellect of yours!",
@@ -44,7 +44,7 @@ var players = [
       "I wear button-up shirts like a boss!"
     ],
     hp: 260,
-    ap: 15,
+    ap: 12,
     bonus: 1,
     yay: "You did the impossible. You one-upped Mandy! And on the way, \
     you held the ang Gang together despite a spirited insurrection. \
@@ -69,8 +69,8 @@ var players = [
       "My hair is longest!",
       "I speak the loudest of you all!"
     ],
-    hp: 150,
-    ap: 20,
+    hp: 108,
+    ap: 15,
     bonus: 3,
     yay: "Incredible! You showed Tuan who's boss. Now you run the Dang Gang! \
     Not only that, you managed to one-up Mandy on the way. \
