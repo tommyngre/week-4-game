@@ -8,12 +8,17 @@ var players = [
   But she needed to let the world know. She needed to... one-up them all.",
     sayings: [
       "I'm the best!",
-      "My office-mate was the best!",
-      "I made drawing questions!"
+      "My old office-mate was best!",
+      "People wear Mandy Masks!",
+      "I'm an icon!",
+      "People 'Million Mandy March' for me!",
+      "I developed drawing questions!",
+      "There's a trophy of my head!",
+      "I one-upped Sumit at GLG!"
     ],
-    hp: 161,
-    ap: 13,
-    bonus: 0,
+    hp: 400,
+    ap: 10,
+    bonus: 1,
     yay: "But that's no surprise. You're the best.\
     You conquered the realm and kept the Dang Gang at bay - to no one's surprise, \
     with that great intellect of yours!",
@@ -29,13 +34,17 @@ var players = [
   But his humility was a facade, and he intended make those pay who took it for granted. \
   Possibly even his closet allies.",
     sayings: [
-      "Three are better than one!",
-      "I bested the Jiang Gang!",
-      "I made HTML-enabled notes!",
+      "I run the Dang Gang!",
+      "I eliminated the Jiang Gang!",
+      "I developed HTML-enabled notes!",
       "I trained Dandan Wang!",
+      "I'm the best dancer!",
+      "Two time dance champ! Two!",
+      "No whoopie pie has survived me!",
+      "I wear button-up shirts like a boss!"
     ],
-    hp: 95,
-    ap: 13,
+    hp: 260,
+    ap: 15,
     bonus: 2,
     yay: "You did the impossible. You one-upped Mandy! And on the way, \
     you held the ang Gang together despite a spirited insurrection. \
@@ -55,11 +64,14 @@ var players = [
     sayings: [
       "I know accessibility best!",
       "I have the best character tees!",
-      "I speak screen-reader!"
+      "I speak fluent screen-reader!",
+      "I'm the tallest!",
+      "My hair is longest!",
+      "I speak the loudest of you all!"
     ],
-    hp: 83,
-    ap: 15,
-    bonus: 2,
+    hp: 150,
+    ap: 20,
+    bonus: 5,
     yay: "Incredible! You showed Tuan who's boss. Now you run the Dang Gang! \
     Not only that, you managed to one-up Mandy on the way. \
     But keep an eye out; Mandy's not the type to go gently into that good night. ",
@@ -77,12 +89,16 @@ var players = [
   and perhaps the only viable threat to Mandy's supremacy. Mr. Sun knew his value too.",
     sayings: [
       "I write the smallest!",
-      "The mentee will become the mentor!",
-      "My parking spots are best! Handicap!"
+      "Who needs shoes? Not me!",
+      "Mandy mentored me in one-ups!",
+      "Not afraid to park in handicap spots!",
+      "I rock undershirts like nobody else!",
+      "My last name is a star!",
+      "I have the most posters of anime chicks!"
     ],
-    hp: 58,
+    hp: 80,
     ap: 25,
-    bonus: 3,
+    bonus: 10,
     yay: "Very impressive, Mr. Sun! You bested your mentor, Mandy \
     and have placed in a formidable headlock those who took you under their wings. \
     You command the Dang Dang. Tuan and Sonic answer to you now... for now.",
@@ -147,10 +163,14 @@ var game = {
       $(div).removeClass("bounceOutUp") //fixed?
       $(div).css("display", "none");
     }, 1000);
-    $("#subtitle").css("display", "none");
     if (div == "#chars-selection-wrapper") {
-      this.chooseFoe();
+      $("#subtitle").addClass("animated bounceOutUp");
+      setTimeout(function () {
+        $("#subtitle").css("display", "none");
+        $("#subtitle").addClass("bounceOutUp");
+      }, 500)
 
+      this.chooseFoe();
     }
   },
   story: function (f) {
@@ -158,8 +178,8 @@ var game = {
 
       var btn = $("<button>").text("Continue").addClass("mx-auto continue-btn");
 
-      $("#bios-content-wrapper").append(`<h2> ${game.player.bio} </h2>`)
-        .append(`<h2> ${f.bio} "</h2>`)
+      $("#bios-content-wrapper").append(`<h3> ${game.player.bio} </h3>`)
+        .append(`<h3> ${f.bio} </h3>`)
         .append(btn)
         .addClass("animated bounceInDown");
       $("#bios-wrapper").css("display", "block")
@@ -241,16 +261,18 @@ var game = {
   clearBattle: function () {
     //cleanup battle-wrapper between battles
     setTimeout(function () {
-    $("#php").removeClass("hp-flash");
-    $("#game-player").html("");
-    $("#player-sayings").html("");
-    $("#player-hp").html("");
-    $("#game-foe").html("");
-    $("#fhp").removeClass("hp-flash");
-    $("#foe-sayings").html("");
-    $("#foe-hp").html("");
-    $("#attack-btn").html("");
-    },500);
+      $("#php").removeClass("hp-flash");
+      $("#game-player").html("");
+      $("#player-sayings").html("");
+      $("#player-hp").html("");
+      $("#game-foe").html("");
+      $("#fhp").removeClass("hp-flash");
+      $("#foe-sayings").html("");
+      $("#foe-hp").html("");
+      $("#attack-btn").html("");
+      $("#graveyard-title").text("");
+      $("#graveyard-content").text("");
+    }, 500);
   },
   stageBattle: function (f) {
     setTimeout(function () {
@@ -270,29 +292,43 @@ var game = {
 
       $("#attack-btn").html(`<button id="one-up" class="attack-btn">One-up!</button>`);
 
+      if (game.foe3 != "") {
+        $("#graveyard-title").text("You've already defeated:");
+        $("#graveyard-content").text(`${game.foe1.name}, ${game.foe2.name}`);
+      } else if (game.foe2 != "") {
+        $("#graveyard-title").text("You've already defeated:");
+        $("#graveyard-content").text(game.foe1.name);
+      }
+
       $("#battle-wrapper").addClass("animated bounceInDown")
         .css("display", "block")
     }, 1000);
   },
   attack: function (player, sayings, f) {
     if (player == "#player") {
-      var rnd = Math.floor(Math.random() * game.player.sayings.length + 1);
+      var rnd = Math.round(Math.random() * game.player.sayings.length);
       $(player).addClass("animated tada");
-      $(sayings).addClass("sayings pixel-font").text(game.player.sayings[rnd]);
+      $(sayings).addClass("animated tada sayings pixel-font").text(game.player.sayings[rnd]);
     } else {
-      var rnd = Math.floor(Math.random() * f.sayings.length + 1);
+      var rnd = Math.round(Math.random() * f.sayings.length);
       $(player).addClass("animated tada");
-      $(sayings).addClass("sayings pixel-font").text(f.sayings[rnd]);
+      $(sayings).addClass("animated tada sayings pixel-font").text(f.sayings[rnd]);
     }
 
     setTimeout(function () {
       $(player).removeClass("tada");
-    }, 400);
+      $(sayings).removeClass("tada").addClass("fadeOut");
+    }, 500);
+
+    setTimeout(function () {
+      $(sayings).removeClass("fadeOut").text("");
+    }, 800);
+
   },
   hpflash: function (hp) {
     setTimeout(function () {
       $(hp).removeClass("hp-flash");
-    }, 300);
+    }, 600);
   },
   fight: function (f) {
     this.stageBattle(f);
@@ -306,63 +342,65 @@ var game = {
 
       //calculate outcome of attack
       var php = $("#php").text();
-      php -= f.ap;      
+      php -= f.ap;
       var fhp = $("#fhp").text()
-      fhp -= (game.player.ap + (game.player.bonus*cnt));
+      fhp -= (game.player.ap + (game.player.bonus * cnt));
 
       //battle logic
-      //if the foe will survive the next attack
-      ///launch attack
-      ///modify foe health
-      if (fhp > 0) {
+      //if player & foe survive attack
+      if ((fhp > 0) && (php > 0)) {
         game.attack("#player", "#player-sayings", f);
         $("#fhp").text(fhp).addClass("animated hp-flash");
         game.hpflash("#fhp");
-        //if player will survive counter-attack, launch
-        ///launch counter-attack
-        ///modify player health
-        if (php > 0) {
-          setTimeout(function () {
-            game.attack("#foe", "#foe-sayings", f);
-            $("#php").text(php).addClass("animated hp-flash");
-            game.hpflash("#php");
-          }, 500)
-        //if player will not survive counter-attack, handle loss-gameover
-        ///change player hp to zero and freeze red
-        } else {
-          $("#php").text("0").addClass("hp-flash")
-            .css("color", "red");
+        //delay counter-attack
+        setTimeout(function () {
+          game.attack("#foe", "#foe-sayings", f);
+          $("#php").text(php).addClass("animated hp-flash");
+          game.hpflash("#php");
+        }, 500)
+
+        //if only foe survives attack
+        ///handle loss
+      } else if ((php < 1) && (fhp > 0)) {
+        game.attack("#foe", "#foe-sayings", f);
+        $("#php").text("0").addClass("hp-flash")
+          .css("color", "red");
+        //delay handling in order to emph 0 HP
+        setTimeout(function () {
           game.removeFoe(f);
           game.lose();
-        }
-      }
-      //if foe will not survice attack, handle win
-      else {
+        }, 1000);
+
+        //if only player survives attack
+        ///handle win
+      } else {
+        game.attack("#player", "#player-sayings", f);
+        $("#fhp").text("0").addClass("hp-flash")
+
         //if foe 3 not set, go to next battle
-        ///change foe hp to zero and freeze red
         if (game.foe3 != "") {
-          $("#fhp").text("0").addClass("hp-flash")
-          .css("color", "red");
-          game.clear("#battle-wrapper");
-          game.removeFoe(f);
-          game.win();
-        }
-        //if foe 3 set, then handle win-gameover
-        else {
+          //delay handling in order to emph 0 HP
+          setTimeout(function () {
+            game.clear("#battle-wrapper");
+            game.removeFoe(f);
+            game.win();
+          }, 1000);
+
+          //if foe3 set, handle gameover (win!)
+        } else {
           $("#fhp").text("0").addClass("hp-flash")
             .css("color", "red");
-
-          //prep for next foe selection
-          $("#foes-wrapper").html("");
-          game.clear("#battle-wrapper");
-          //clear elements while display:none
-          game.clearBattle();
-          //remove foe from foe ary
-          game.removeFoe(f);
-          game.chooseFoe();
+          //delay handling in order to emph 0 HP
+          setTimeout(function () {
+            $("#foes-wrapper").html("");
+            game.clear("#battle-wrapper");
+            game.clearBattle();
+            //remove foe from foe ary
+            game.removeFoe(f);
+            game.chooseFoe();
+          }, 1000);
         }
       }
-
     })
   },
   removeFoe: function (f) {

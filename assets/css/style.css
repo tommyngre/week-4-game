@@ -2,6 +2,12 @@ body{
   width:100%;
 }
 
+.game-wrapper{
+  position:relative;
+  width:90%;
+}
+
+
 #gameover-modal{
   z-index: 2;
   display:none;
@@ -16,28 +22,25 @@ body{
   padding:20px;
   top:100px;
   margin:0 auto;
-  background-color:white;
-  
+  background-color:white;  
 }
 #startover{
   z-index:3;
 }
 
-.game-wrapper{
-  width:90%;
-}
 
 .pixel-font{
   font-family: 'Press Start 2P', cursive;
 }
 
-.asd{
+.sayings-wrapper{
   display:block;
   min-width:1px;
   height:80px;
+  margin-bottom:10px;
 }
 .sayings{
-  padding:20px;
+  padding:10px;
   font-size:1em;
 }
 
@@ -63,7 +66,7 @@ section{
   cursor:pointer;
   background-color: rosybrown;
   box-shadow:0px 5px black;
-  margin: 10px;
+  margin: 10px 10px 20px 10px;
   border-radius: 5px;
   border:none;
   font-size: 1.75rem;
@@ -94,6 +97,7 @@ section{
 .battle-pic{
   margin: 0px auto;
   max-height: 250px;
+  
 }
 
 .hp{
@@ -152,11 +156,14 @@ h1,h2,h3{
 }
 
 .sayings{
-  font-size: .7em;
+  font-size: .6em;
 }
 
 .hp{
   font-size: .7em;  
 }
 
+#graveyard-title{
+  margin-top:20px;
+}
 }
