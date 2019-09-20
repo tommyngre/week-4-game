@@ -357,7 +357,7 @@ var game = {
           game.attack("#foe", "#foe-sayings", f);
           $("#php").text(php).addClass("animated hp-flash");
           game.hpflash("#php");
-        }, 500)
+        }, 650)
 
         //if only foe survives attack
         ///handle loss
